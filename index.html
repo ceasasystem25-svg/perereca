@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Novo Pedido - Colméia</title>
+  
+  <meta name="theme-color" content="#075E54">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/VNQ8ywFQ/Sem-titulo-1.png">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/VNQ8ywFQ/Sem-titulo-1.png">
+
+  <style>
+    html, body { 
+      margin: 0; padding: 0;
+      height: 100%; overflow: hidden;
+      font-family: 'Segoe UI', sans-serif; 
+      background: #f0f2f5; color: #333;
+    }
+    
+    .header-fixed { 
+      position: fixed; top: 0; width: 100%;
+      background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+      z-index: 100; padding: 5px 0 10px 0; 
+    }
+    .container { max-width: 500px; margin: auto; padding: 0 15px; }
+    
+    .logo-container { text-align: center; margin-bottom: 0px; }
+    .logo-container img { max-height: 40px; width: auto; }
+
+    h1 { 
+      color: #075E54; font-size: 16px; text-align: center; 
+      margin: 2px 0 5px 0; font-weight: bold; 
+    }
+
+    .header-info { background: #f9f9f9; padding: 8px; border-radius: 6px; border: 1px solid #eee; font-size: 13px; margin-bottom: 5px; }
+    
+    input[type="text"], textarea, select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; }
+    
+    .search-container { position: relative; margin-top: 8px; }
+    .search-input { 
+      width: 100%; padding: 8px 35px 8px 10px; border-radius: 6px; 
+      border: 1px solid #25D366; font-size: 15px; box-sizing: border-box;
+    }
+    .btn-clear-search {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: #ccc; color: white; border: none; border-radius: 50%;
+      width: 22px; height: 22px; font-size: 12px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .scrollable-content { 
+      position: absolute;
+      top: 175px; 
+      bottom: 250px; 
+      left: 0; right: 0;
+      overflow-y: auto; 
+      padding: 10px 0;
+    }
+
+    .item-row { 
+      background: white; border-radius: 8px; margin-bottom: 10px; padding: 12px; 
+      display: flex; flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.2s;
+    }
+    .item-header { display: flex; justify-content: space-between; width: 100%; margin-bottom: 8px; }
+
+    .item-preenchido { background: #e8f5e9 !important; border: 1px solid #25D366; }
+
+    .inputs-group { display: flex; gap: 6px; width: 100%; }
+    .input-box { flex: 1; display: flex; flex-direction: column; align-items: center; }
+    .input-box label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; text-align: center; }
+    input[type="number"] { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; text-align: center; font-size: 15px; box-sizing: border-box; }
+
+    .qtd-container { display: flex; gap: 4px; width: 100%; }
+    .qtd-container input { flex: 1.5; }
+    .qtd-container select { flex: 1; padding: 8px 2px; text-align: center; font-size: 14px; background: white; }
+
+    .totais-linha { width: 100%; text-align: right; font-size: 12px; color: #555; margin-top: 8px; font-weight: 500; display: none; }
+
+    .footer-fixed { 
+      position: fixed; bottom: 0; width: 100%;
+      background: white; border-top: 1px solid #ddd;
+      padding: 10px 0 15px 0; z-index: 100; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .totais-gerais {
+      width: 90%; max-width: 470px; margin: 0 auto 10px auto;
+      background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #e0e0e0;
+      display: flex; justify-content: space-between; font-size: 14px;
+    }
+    .totais-gerais div { display: flex; flex-direction: column; }
+    .valor-destaque { font-size: 18px; font-weight: bold; color: #075E54; }
+    .valor-custo { font-size: 14px; font-weight: bold; color: #d32f2f; }
+
+    .btn-enviar { 
+      width: 90%; max-width: 470px; display: block; margin: auto; 
+      padding: 14px; background: #25D366; color: white; 
+      border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;
+    }
+    
+    .btn-limpar {
+      width: 90%; max-width: 470px; display: block; margin: 8px auto 0 auto; 
+      padding: 10px; background: transparent; color: #d32f2f; 
+      border: 1px solid #d32f2f; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;
+    }
+    
+    .obs-container { width: 90%; max-width: 470px; margin: 0 auto 10px auto; }
+    .obs-container textarea { font-size: 13px; padding: 6px; resize: none; height: 40px; }
+
+    .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+    .modal-content { background: white; margin: 10% auto; padding: 20px; border-radius: 12px; width: 85%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
+    .revisao-texto { white-space: pre-wrap; background: #f4f4f4; padding: 12px; border-radius: 6px; font-size: 13px; margin: 15px 0; border: 1px solid #ddd; font-family: monospace; }
+    .modal-btns { display: flex; gap: 10px; }
+    .btn-confirmar { flex: 2; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; }
+    .btn-corrigir { flex: 1; background: #666; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<div class="header-fixed">
+  <div class="container">
+    <div class="logo-container">
+      <img src="https://i.postimg.cc/Mp43sV46/LOGO-COLMEIA.png" alt="Logo Colméia">
+    </div>
+
+    <h1>Pedido Digital Colméia</h1>
+
+    <div class="header-info">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 12px;"><b>📅</b> <span id="dataHoraAtual"></span></span>
+      </div>
+      <input type="text" id="inputCliente" placeholder="👤 Nome do Cliente / Empresa">
+      
+      <div class="search-container">
+        <input type="text" id="inputBusca" class="search-input" placeholder="🔍 Buscar produto ou código..." onkeyup="filtrarProdutos()">
+        <button class="btn-clear-search" onclick="limparBusca()">✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="scrollable-content">
+  <div class="container">
+    <div id="listaProdutos"><p style="text-align:center; color: #666; margin-top: 20px;">Carregando catálogo de produtos...</p></div>
+  </div>
+</div>
+
+<div class="footer-fixed">
+  <div class="totais-gerais">
+    <div>
+      <span style="font-size: 11px; color: #888; text-transform: uppercase;">Total de Custo</span>
+      <span class="valor-custo" id="lblTotalCusto">R$ 0,00</span>
+    </div>
+    <div style="text-align: right;">
+      <span style="font-size: 11px; color: #888; text-transform: uppercase;">Total do Pedido</span>
+      <span class="valor-destaque" id="lblTotalVenda">R$ 0,00</span>
+    </div>
+  </div>
+
+  <div class="obs-container">
+    <textarea id="obsGeral" placeholder="📝 Observações do pedido (opcional)..."></textarea>
+  </div>
+  <button class="btn-enviar" onclick="abrirRevisao()">📋 Revisar e Enviar Pedido</button>
+  <button class="btn-limpar" onclick="confirmarLimpeza()">🗑️ Limpar Tudo</button>
+</div>
+
+<div id="modalRevisao" class="modal">
+  <div class="modal-content">
+    <h3 style="margin-top:0; color: #075E54;">Revisar Pedido</h3>
+    <div id="corpoRevisao" class="revisao-texto"></div>
+
+    <div class="modal-btns">
+      <button class="btn-corrigir" onclick="fecharRevisao()">Alterar</button>
+      <button class="btn-confirmar" onclick="confirmarEEnviar()">Enviar p/ WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyhTl3okNtfIJgyjdZl34x0Kw8nssJfOC7dqChaIsV1GIZx3j5iU5vZhYLe1WryQ3L4gA/exec";
+
+  let dadosProdutos = [];
+  let mensagemFinal = "";
+
+  function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  function atualizarDataHora() {
+    const agora = new Date();
+    const formato = agora.toLocaleDateString('pt-BR') + " às " + agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+    document.getElementById('dataHoraAtual').innerText = formato;
+  }
+  
+  atualizarDataHora();
+  setInterval(atualizarDataHora, 60000);
+
+  function atualizarLinhaETotais(index) {
+    const qtdStr = document.getElementById(`qtd-${index}`).value.replace(',', '.');
+    const vendaStr = document.getElementById(`venda-${index}`).value.replace(',', '.');
+    const custoStr = document.getElementById(`custo-${index}`).value.replace(',', '.');
+
+    const qtd = parseFloat(qtdStr) || 0;
+    const venda = parseFloat(vendaStr) || 0;
+    const custo = parseFloat(custoStr) || 0;
+    
+    const row = document.getElementById(`row-${index}`);
+    const divTotais = document.getElementById(`totais-linha-${index}`);
+    
+    if (qtd > 0) {
+      row.classList.add('item-preenchido');
+      divTotais.style.display = 'block';
+      
+      const totalVendaLinha = qtd * venda;
+      const totalCustoLinha = qtd * custo;
+      
+      document.getElementById(`totVenda-${index}`).innerText = formatarMoeda(totalVendaLinha);
+      document.getElementById(`totCusto-${index}`).innerText = formatarMoeda(totalCustoLinha);
+    } else {
+      row.classList.remove('item-preenchido');
+      divTotais.style.display = 'none';
+    }
+
+    calcularTotaisGlobais();
+  }
+
+  function calcularTotaisGlobais() {
+    let somaVenda = 0;
+    let somaCusto = 0;
+
+    dadosProdutos.forEach((p, index) => {
+      const qtdStr = document.getElementById(`qtd-${index}`).value.replace(',', '.');
+      const vendaStr = document.getElementById(`venda-${index}`).value.replace(',', '.');
+      const custoStr = document.getElementById(`custo-${index}`).value.replace(',', '.');
+
+      const qtd = parseFloat(qtdStr) || 0;
+      const venda = parseFloat(vendaStr) || 0;
+      const custo = parseFloat(custoStr) || 0;
+
+      somaVenda += (qtd * venda);
+      somaCusto += (qtd * custo);
+    });
+
+    document.getElementById('lblTotalVenda').innerText = formatarMoeda(somaVenda);
+    document.getElementById('lblTotalCusto').innerText = formatarMoeda(somaCusto);
+  }
+
+  function filtrarProdutos() {
+    const termo = document.getElementById('inputBusca').value.toLowerCase();
+    const rows = document.getElementsByClassName('item-row');
+    Array.from(rows).forEach(row => {
+      const texto = row.querySelector('.item-header').innerText.toLowerCase();
+      row.style.display = texto.includes(termo) ? "flex" : "none";
+    });
+  }
+
+  function limparBusca() {
+    const input = document.getElementById('inputBusca');
+    input.value = "";
+    filtrarProdutos();
+    input.focus();
+  }
+
+  async function carregarDados() {
+    try {
+      const response = await fetch(SCRIPT_URL + "?get=produtos");
+      const data = await response.json();
+      
+      dadosProdutos = data.produtos;
+      const lista = document.getElementById('listaProdutos');
+      lista.innerHTML = '';
+      
+      dadosProdutos.forEach((p, index) => {
+        lista.innerHTML += `
+          <div class="item-row" id="row-${index}">
+            <div class="item-header">
+              <div style="flex:1"><b>${p.codigo}</b><br><small>${p.nome}</small></div>
+            </div>
+            <div class="inputs-group">
+              <div class="input-box" style="flex: 1.3;">
+                <label>Qtd / Tipo</label>
+                <div class="qtd-container">
+                  <input type="number" step="0.01" id="qtd-${index}" oninput="atualizarLinhaETotais(${index})" placeholder="0">
+                  <select id="unid-${index}">
+                    <option value="Un">Un</option>
+                    <option value="Kg">Kg</option>
+                    <option value="Cx">Cx</option>
+                  </select>
+                </div>
+              </div>
+              <div class="input-box">
+                <label>Venda (R$)</label>
+                <input type="number" step="0.01" id="venda-${index}" oninput="atualizarLinhaETotais(${index})" placeholder="0,00">
+              </div>
+              <div class="input-box">
+                <label>Custo (R$)</label>
+                <input type="number" step="0.01" id="custo-${index}" oninput="atualizarLinhaETotais(${index})" placeholder="0,00">
+              </div>
+            </div>
+            <div class="totais-linha" id="totais-linha-${index}">
+               Custo: <span id="totCusto-${index}" style="color:#d32f2f">R$ 0,00</span> | 
+               Total: <span id="totVenda-${index}" style="color:#075E54; font-weight:bold;">R$ 0,00</span>
+            </div>
+          </div>`;
+      });
+    } catch (e) { document.getElementById('listaProdutos').innerHTML = "<p style='text-align:center;color:red;'>Erro ao carregar produtos. Verifique a conexão.</p>"; }
+  }
+
+  function abrirRevisao() {
+    const cliente = document.getElementById('inputCliente').value.trim();
+    const obs = document.getElementById('obsGeral').value.trim();
+    
+    if (!cliente) return alert("Por favor, informe o Nome do Cliente!");
+
+    const dataHoraFinal = document.getElementById('dataHoraAtual').innerText;
+
+    let msg = `🛒 *NOVO PEDIDO - COLMÉIA*\n`;
+    msg += `👤 Cliente: *${cliente}*\n`;
+    msg += `📅 Data: ${dataHoraFinal}\n`;
+    msg += `----------------------------\n\n`;
+
+    let temDados = false;
+    let somaVenda = 0;
+    let somaCusto = 0;
+
+    dadosProdutos.forEach((p, index) => {
+      const qtdStr = document.getElementById(`qtd-${index}`).value.replace(',', '.');
+      const unid = document.getElementById(`unid-${index}`).value;
+      const vendaStr = document.getElementById(`venda-${index}`).value.replace(',', '.');
+      const custoStr = document.getElementById(`custo-${index}`).value.replace(',', '.');
+
+      const qtd = parseFloat(qtdStr) || 0;
+      const venda = parseFloat(vendaStr) || 0;
+      const custo = parseFloat(custoStr) || 0;
+      
+      if (qtd > 0) {
+        temDados = true;
+        const totalVendaItem = qtd * venda;
+        const totalCustoItem = qtd * custo;
+        
+        somaVenda += totalVendaItem;
+        somaCusto += totalCustoItem;
+
+        msg += `📦 *${p.codigo} - ${p.nome}*\n`;
+        msg += `▸ Qtd: ${qtd} ${unid}\n`;
+        msg += `▸ V. Venda: ${formatarMoeda(venda)} (Total: ${formatarMoeda(totalVendaItem)})\n`;
+        msg += `▸ V. Custo: ${formatarMoeda(custo)} (Total: ${formatarMoeda(totalCustoItem)})\n\n`;
+      }
+    });
+
+    if (!temDados) return alert("Adicione pelo menos 1 item com quantidade no pedido!");
+
+    msg += `----------------------------\n`;
+    msg += `📉 *TOTAL DE CUSTO:* ${formatarMoeda(somaCusto)}\n`;
+    msg += `💰 *TOTAL DO PEDIDO:* ${formatarMoeda(somaVenda)}\n`;
+    
+    const lucro = somaVenda - somaCusto;
+    if(lucro > 0) {
+        msg += `📈 *LUCRO ESTIMADO:* ${formatarMoeda(lucro)}\n`;
+    }
+
+    if (obs) msg += `\n📝 *Observações:* ${obs}\n`;
+
+    mensagemFinal = msg;
+    document.getElementById('corpoRevisao').innerText = msg;
+    document.getElementById('modalRevisao').style.display = 'block';
+  }
+
+  function fecharRevisao() { document.getElementById('modalRevisao').style.display = 'none'; }
+
+  function limparFormulario() {
+    dadosProdutos.forEach((p, index) => {
+      const inputQtd = document.getElementById(`qtd-${index}`);
+      const inputUnid = document.getElementById(`unid-${index}`);
+      const inputVenda = document.getElementById(`venda-${index}`);
+      const inputCusto = document.getElementById(`custo-${index}`);
+      
+      if(inputQtd) inputQtd.value = "";
+      if(inputUnid) inputUnid.value = "Un";
+      if(inputVenda) inputVenda.value = "";
+      if(inputCusto) inputCusto.value = "";
+      
+      const row = document.getElementById(`row-${index}`);
+      if(row) row.classList.remove('item-preenchido');
+      
+      const divTotais = document.getElementById(`totais-linha-${index}`);
+      if(divTotais) divTotais.style.display = 'none';
+    });
+    
+    document.getElementById('obsGeral').value = "";
+    document.getElementById('inputBusca').value = "";
+    document.getElementById('inputCliente').value = "";
+    
+    calcularTotaisGlobais();
+    document.querySelector('.scrollable-content').scrollTop = 0;
+  }
+
+  function confirmarLimpeza() {
+    if(confirm("⚠️ Tem certeza que deseja apagar todos os dados do pedido? Essa ação não pode ser desfeita.")) {
+      limparFormulario();
+    }
+  }
+
+  function confirmarEEnviar() {
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensagemFinal)}`;
+    fecharRevisao();
+    limparFormulario();
+    window.location.href = url;
+  }
+
+  carregarDados();
+</script>
+
+</body>
+</html>
