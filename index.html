@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Novo Pedido - Colméia</title>
+  <title>Novo Pedido - ESQUINÃO</title>
   
   <meta name="theme-color" content="#075E54">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,7 @@
     .qtd-container input { flex: 1.5; }
     .qtd-container select { flex: 1; padding: 8px 2px; text-align: center; font-size: 14px; background: white; }
 
-    .totais-linha { width: 100%; text-align: right; font-size: 12px; color: #555; margin-top: 8px; font-weight: 500; display: none; }
+    .totais-linha { width: 100%; text-align: center; font-size: 11px; color: #555; margin-top: 8px; font-weight: 500; display: none; background: #f9f9f9; padding: 5px; border-radius: 5px; border: 1px solid #eee;}
 
     .footer-fixed { 
       position: fixed; bottom: 0; width: 100%;
@@ -91,8 +91,9 @@
       display: flex; justify-content: space-between; font-size: 14px;
     }
     .totais-gerais div { display: flex; flex-direction: column; }
-    .valor-destaque { font-size: 18px; font-weight: bold; color: #075E54; }
+    .valor-destaque { font-size: 16px; font-weight: bold; color: #075E54; }
     .valor-custo { font-size: 14px; font-weight: bold; color: #d32f2f; }
+    .valor-lucro { font-size: 15px; font-weight: bold; color: #1976D2; }
 
     .btn-enviar { 
       width: 90%; max-width: 470px; display: block; margin: auto; 
@@ -150,11 +151,15 @@
 <div class="footer-fixed">
   <div class="totais-gerais">
     <div>
-      <span style="font-size: 11px; color: #888; text-transform: uppercase;">Total de Custo</span>
+      <span style="font-size: 10px; color: #888; text-transform: uppercase;">Custo</span>
       <span class="valor-custo" id="lblTotalCusto">R$ 0,00</span>
     </div>
+    <div style="text-align: center;">
+      <span style="font-size: 10px; color: #888; text-transform: uppercase;">Lucro</span>
+      <span class="valor-lucro" id="lblTotalLucro">R$ 0,00</span>
+    </div>
     <div style="text-align: right;">
-      <span style="font-size: 11px; color: #888; text-transform: uppercase;">Total do Pedido</span>
+      <span style="font-size: 10px; color: #888; text-transform: uppercase;">Pedido</span>
       <span class="valor-destaque" id="lblTotalVenda">R$ 0,00</span>
     </div>
   </div>
@@ -215,9 +220,11 @@
       
       const totalVendaLinha = qtd * venda;
       const totalCustoLinha = qtd * custo;
+      const totalLucroLinha = totalVendaLinha - totalCustoLinha;
       
-      document.getElementById(`totVenda-${index}`).innerText = formatarMoeda(totalVendaLinha);
       document.getElementById(`totCusto-${index}`).innerText = formatarMoeda(totalCustoLinha);
+      document.getElementById(`totLucro-${index}`).innerText = formatarMoeda(totalLucroLinha);
+      document.getElementById(`totVenda-${index}`).innerText = formatarMoeda(totalVendaLinha);
     } else {
       row.classList.remove('item-preenchido');
       divTotais.style.display = 'none';
@@ -243,8 +250,11 @@
       somaCusto += (qtd * custo);
     });
 
-    document.getElementById('lblTotalVenda').innerText = formatarMoeda(somaVenda);
+    const somaLucro = somaVenda - somaCusto;
+
     document.getElementById('lblTotalCusto').innerText = formatarMoeda(somaCusto);
+    document.getElementById('lblTotalLucro').innerText = formatarMoeda(somaLucro);
+    document.getElementById('lblTotalVenda').innerText = formatarMoeda(somaVenda);
   }
 
   function filtrarProdutos() {
@@ -301,6 +311,7 @@
             </div>
             <div class="totais-linha" id="totais-linha-${index}">
                Custo: <span id="totCusto-${index}" style="color:#d32f2f">R$ 0,00</span> | 
+               Lucro: <span id="totLucro-${index}" style="color:#1976D2">R$ 0,00</span> | 
                Total: <span id="totVenda-${index}" style="color:#075E54; font-weight:bold;">R$ 0,00</span>
             </div>
           </div>`;
@@ -339,6 +350,7 @@
         temDados = true;
         const totalVendaItem = qtd * venda;
         const totalCustoItem = qtd * custo;
+        const lucroItem = totalVendaItem - totalCustoItem;
         
         somaVenda += totalVendaItem;
         somaCusto += totalCustoItem;
@@ -346,21 +358,20 @@
         msg += `📦 *${p.codigo} - ${p.nome}*\n`;
         msg += `▸ Qtd: ${qtd} ${unid}\n`;
         msg += `▸ V. Venda: ${formatarMoeda(venda)} (Total: ${formatarMoeda(totalVendaItem)})\n`;
-        msg += `▸ V. Custo: ${formatarMoeda(custo)} (Total: ${formatarMoeda(totalCustoItem)})\n\n`;
+        msg += `▸ V. Custo: ${formatarMoeda(custo)} (Total: ${formatarMoeda(totalCustoItem)})\n`;
+        msg += `▸ Lucro: ${formatarMoeda(lucroItem)}\n\n`;
       }
     });
 
     if (!temDados) return alert("Adicione pelo menos 1 item com quantidade no pedido!");
 
+    const somaLucro = somaVenda - somaCusto;
+
     msg += `----------------------------\n`;
     msg += `📉 *TOTAL DE CUSTO:* ${formatarMoeda(somaCusto)}\n`;
     msg += `💰 *TOTAL DO PEDIDO:* ${formatarMoeda(somaVenda)}\n`;
+    msg += `📈 *LUCRO TOTAL:* ${formatarMoeda(somaLucro)}\n`;
     
-    const lucro = somaVenda - somaCusto;
-    if(lucro > 0) {
-        msg += `📈 *LUCRO ESTIMADO:* ${formatarMoeda(lucro)}\n`;
-    }
-
     if (obs) msg += `\n📝 *Observações:* ${obs}\n`;
 
     mensagemFinal = msg;
