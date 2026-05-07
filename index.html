@@ -47,10 +47,10 @@
       display: flex; align-items: center; justify-content: center;
     }
 
-    /* Espaço central expandido devido ao topo e rodapé menores */
+    /* Ajuste principal feito aqui: top alterado para 185px para descer a lista */
     .scrollable-content { 
       position: absolute;
-      top: 135px; 
+      top: 185px; 
       bottom: 180px; 
       left: 0; right: 0;
       overflow-y: auto; 
@@ -70,7 +70,6 @@
     .input-box { flex: 1; display: flex; flex-direction: column; align-items: center; }
     .input-box label { font-size: 9px; color: #888; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; text-align: center; }
     
-    /* Inputs menores */
     input[type="number"] { width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px; text-align: center; font-size: 14px; box-sizing: border-box; height: 30px; }
 
     .qtd-container { display: flex; gap: 4px; width: 100%; }
@@ -95,7 +94,6 @@
     .valor-custo { font-size: 13px; font-weight: bold; color: #d32f2f; }
     .valor-lucro { font-size: 13px; font-weight: bold; color: #1976D2; }
 
-    /* Botões menores */
     .btn-enviar { 
       width: 92%; max-width: 470px; display: block; margin: auto; 
       padding: 10px; background: #25D366; color: white; 
