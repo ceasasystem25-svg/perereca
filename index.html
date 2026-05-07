@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Novo Pedido - Esquinão</title>
+  <title>Novo Pedido - Colméia</title>
   
   <meta name="theme-color" content="#075E54">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/rsx1CsKD/Chat-GPT-Image-5-de-mai-de-2026-14-09-55.png">
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/rsx1CsKD/Chat-GPT-Image-5-de-mai-de-2026-14-09-55.png">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/VNQ8ywFQ/Sem-titulo-1.png">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/VNQ8ywFQ/Sem-titulo-1.png">
 
   <style>
     html, body { 
@@ -36,8 +36,11 @@
 
     .header-info { background: #f9f9f9; padding: 8px; border-radius: 6px; border: 1px solid #eee; font-size: 13px; margin-bottom: 5px; }
     
-    input[type="text"], textarea, select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; }
+    input[type="text"], input[type="date"], textarea, select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; }
     
+    /* Estilo específico para o campo de data no topo */
+    .input-data-topo { width: auto; display: inline-block; padding: 4px; border: 1px solid #ddd; font-size: 12px; height: 28px; }
+
     .search-container { position: relative; margin-top: 8px; }
     .search-input { 
       width: 100%; padding: 8px 35px 8px 10px; border-radius: 6px; 
@@ -75,7 +78,7 @@
 
     .qtd-container { display: flex; gap: 4px; width: 100%; }
     .qtd-container input { flex: 1.5; }
-    .qtd-container select { flex: 1; padding: 8px 2px; text-align: center; font-size: 14px; background: white; }
+    .qtd-container select { flex: 1; padding: 8px 2px; text-align: center; font-size: 13px; background: white; }
 
     .totais-linha { width: 100%; text-align: center; font-size: 11px; color: #555; margin-top: 8px; font-weight: 500; display: none; background: #f9f9f9; padding: 5px; border-radius: 5px; border: 1px solid #eee;}
 
@@ -123,14 +126,14 @@
 <div class="header-fixed">
   <div class="container">
     <div class="logo-container">
-      <img src="https://i.postimg.cc/rsx1CsKD/Chat-GPT-Image-5-de-mai-de-2026-14-09-55.png" alt="Logo Colméia">
+      <img src="https://i.postimg.cc/Mp43sV46/LOGO-COLMEIA.png" alt="Logo Colméia">
     </div>
 
-    <h1>Pedido Digital ESQUINÃO</h1>
+    <h1>Pedido Digital Colméia</h1>
 
     <div class="header-info">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span style="font-size: 12px;"><b>📅</b> <span id="dataHoraAtual"></span></span>
+        <span style="font-size: 12px;"><b>📅 Data do Pedido:</b> <input type="date" id="dataPedido" class="input-data-topo"></span>
       </div>
       <input type="text" id="inputCliente" placeholder="👤 Nome do Cliente / Empresa">
       
@@ -193,14 +196,16 @@
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  function atualizarDataHora() {
-    const agora = new Date();
-    const formato = agora.toLocaleDateString('pt-BR') + " às " + agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-    document.getElementById('dataHoraAtual').innerText = formato;
+  // Inicializa a data de hoje no campo de data
+  function inicializarData() {
+    const hoje = new Date();
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const ano = hoje.getFullYear();
+    document.getElementById('dataPedido').value = `${ano}-${mes}-${dia}`;
   }
   
-  atualizarDataHora();
-  setInterval(atualizarDataHora, 60000);
+  inicializarData();
 
   function atualizarLinhaETotais(index) {
     const qtdStr = document.getElementById(`qtd-${index}`).value.replace(',', '.');
@@ -297,6 +302,10 @@
                     <option value="Un">Un</option>
                     <option value="Kg">Kg</option>
                     <option value="Cx">Cx</option>
+                    <option value="Mç">Mç</option>
+                    <option value="Pct">Pct</option>
+                    <option value="Ct">Ct</option>
+                    <option value="Sc">Sc</option>
                   </select>
                 </div>
               </div>
@@ -322,14 +331,17 @@
   function abrirRevisao() {
     const cliente = document.getElementById('inputCliente').value.trim();
     const obs = document.getElementById('obsGeral').value.trim();
+    const dataSelecionada = document.getElementById('dataPedido').value;
     
     if (!cliente) return alert("Por favor, informe o Nome do Cliente!");
+    if (!dataSelecionada) return alert("Por favor, selecione a data do pedido!");
 
-    const dataHoraFinal = document.getElementById('dataHoraAtual').innerText;
+    // Formata a data de AAAA-MM-DD para DD/MM/AAAA
+    const dataFormatada = dataSelecionada.split('-').reverse().join('/');
 
-    let msg = `🛒 *NOVO PEDIDO - ESQUINÃO*\n`;
+    let msg = `🛒 *NOVO PEDIDO - COLMÉIA*\n`;
     msg += `👤 Cliente: *${cliente}*\n`;
-    msg += `📅 Data: ${dataHoraFinal}\n`;
+    msg += `📅 Data: ${dataFormatada}\n`;
     msg += `----------------------------\n\n`;
 
     let temDados = false;
@@ -403,6 +415,7 @@
     document.getElementById('obsGeral').value = "";
     document.getElementById('inputBusca').value = "";
     document.getElementById('inputCliente').value = "";
+    inicializarData();
     
     calcularTotaisGlobais();
     document.querySelector('.scrollable-content').scrollTop = 0;
