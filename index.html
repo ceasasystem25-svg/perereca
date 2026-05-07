@@ -8,8 +8,6 @@
   <meta name="theme-color" content="#075E54">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/VNQ8ywFQ/Sem-titulo-1.png">
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/VNQ8ywFQ/Sem-titulo-1.png">
 
   <style>
     html, body { 
@@ -22,119 +20,116 @@
     .header-fixed { 
       position: fixed; top: 0; width: 100%;
       background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-      z-index: 100; padding: 5px 0 10px 0; 
+      z-index: 100; padding: 5px 0; 
     }
-    .container { max-width: 500px; margin: auto; padding: 0 15px; }
+    .container { max-width: 500px; margin: auto; padding: 0 10px; }
     
-    .logo-container { text-align: center; margin-bottom: 0px; }
-    .logo-container img { max-height: 40px; width: auto; }
-
     h1 { 
-      color: #075E54; font-size: 16px; text-align: center; 
-      margin: 2px 0 5px 0; font-weight: bold; 
+      color: #075E54; font-size: 15px; text-align: center; 
+      margin: 2px 0 6px 0; font-weight: bold; 
     }
 
-    .header-info { background: #f9f9f9; padding: 8px; border-radius: 6px; border: 1px solid #eee; font-size: 13px; margin-bottom: 5px; }
+    .header-info { background: #f9f9f9; padding: 6px; border-radius: 6px; border: 1px solid #eee; font-size: 12px; margin-bottom: 2px; }
     
-    input[type="text"], input[type="date"], textarea, select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; }
+    input[type="text"], input[type="date"], textarea, select { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; font-size: 13px; box-sizing: border-box; }
     
-    .input-data-topo { width: auto; display: inline-block; padding: 4px; border: 1px solid #ddd; font-size: 12px; height: 28px; }
+    .input-data-topo { width: auto; display: inline-block; padding: 2px 4px; border: 1px solid #ddd; font-size: 11px; height: 26px; }
 
-    .search-container { position: relative; margin-top: 8px; }
+    .search-container { position: relative; margin-top: 6px; }
     .search-input { 
-      width: 100%; padding: 8px 35px 8px 10px; border-radius: 6px; 
-      border: 1px solid #25D366; font-size: 15px; box-sizing: border-box;
+      width: 100%; padding: 6px 30px 6px 8px; border-radius: 6px; 
+      border: 1px solid #25D366; font-size: 14px; box-sizing: border-box; height: 32px;
     }
     .btn-clear-search {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
       background: #ccc; color: white; border: none; border-radius: 50%;
-      width: 22px; height: 22px; font-size: 12px; cursor: pointer;
+      width: 20px; height: 20px; font-size: 11px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
     }
 
+    /* Espaço central expandido devido ao topo e rodapé menores */
     .scrollable-content { 
       position: absolute;
-      top: 225px; 
-      bottom: 250px; 
+      top: 135px; 
+      bottom: 180px; 
       left: 0; right: 0;
       overflow-y: auto; 
-      padding: 10px 0;
+      padding: 6px 0;
     }
 
     .item-row { 
-      background: white; border-radius: 8px; margin-bottom: 10px; padding: 12px; 
+      background: white; border-radius: 6px; margin-bottom: 8px; padding: 8px; 
       display: flex; flex-direction: column;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: background 0.2s;
     }
-    .item-header { display: flex; justify-content: space-between; width: 100%; margin-bottom: 8px; align-items: center; }
+    .item-header { display: flex; justify-content: space-between; width: 100%; margin-bottom: 6px; align-items: center; }
 
     .item-preenchido { background: #e8f5e9 !important; border: 1px solid #25D366; }
 
-    .inputs-group { display: flex; gap: 6px; width: 100%; }
+    .inputs-group { display: flex; gap: 4px; width: 100%; }
     .input-box { flex: 1; display: flex; flex-direction: column; align-items: center; }
-    .input-box label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; text-align: center; }
-    input[type="number"] { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; text-align: center; font-size: 15px; box-sizing: border-box; }
+    .input-box label { font-size: 9px; color: #888; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; text-align: center; }
+    
+    /* Inputs menores */
+    input[type="number"] { width: 100%; padding: 4px; border: 1px solid #ddd; border-radius: 4px; text-align: center; font-size: 14px; box-sizing: border-box; height: 30px; }
 
     .qtd-container { display: flex; gap: 4px; width: 100%; }
     .qtd-container input { flex: 1.5; }
-    .qtd-container select { flex: 1; padding: 8px 2px; text-align: center; font-size: 13px; background: white; }
+    .qtd-container select { flex: 1; padding: 4px 2px; text-align: center; font-size: 12px; background: white; height: 30px; border-radius: 4px;}
 
-    .totais-linha { width: 100%; text-align: center; font-size: 11px; color: #555; margin-top: 8px; font-weight: 500; display: none; background: #f9f9f9; padding: 5px; border-radius: 5px; border: 1px solid #eee;}
+    .totais-linha { width: 100%; text-align: center; font-size: 10px; color: #555; margin-top: 6px; font-weight: 500; display: none; background: #f9f9f9; padding: 4px; border-radius: 4px; border: 1px solid #eee;}
 
     .footer-fixed { 
       position: fixed; bottom: 0; width: 100%;
       background: white; border-top: 1px solid #ddd;
-      padding: 10px 0 15px 0; z-index: 100; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      padding: 8px 0; z-index: 100; box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
     }
     
     .totais-gerais {
-      width: 90%; max-width: 470px; margin: 0 auto 10px auto;
-      background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #e0e0e0;
-      display: flex; justify-content: space-between; font-size: 14px;
+      width: 92%; max-width: 470px; margin: 0 auto 6px auto;
+      background: #f8f9fa; padding: 6px 10px; border-radius: 6px; border: 1px solid #e0e0e0;
+      display: flex; justify-content: space-between; font-size: 12px;
     }
     .totais-gerais div { display: flex; flex-direction: column; }
-    .valor-destaque { font-size: 16px; font-weight: bold; color: #075E54; }
-    .valor-custo { font-size: 14px; font-weight: bold; color: #d32f2f; }
-    .valor-lucro { font-size: 15px; font-weight: bold; color: #1976D2; }
+    .valor-destaque { font-size: 14px; font-weight: bold; color: #075E54; }
+    .valor-custo { font-size: 13px; font-weight: bold; color: #d32f2f; }
+    .valor-lucro { font-size: 13px; font-weight: bold; color: #1976D2; }
 
+    /* Botões menores */
     .btn-enviar { 
-      width: 90%; max-width: 470px; display: block; margin: auto; 
-      padding: 14px; background: #25D366; color: white; 
-      border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;
+      width: 92%; max-width: 470px; display: block; margin: auto; 
+      padding: 10px; background: #25D366; color: white; 
+      border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer;
     }
     
     .btn-limpar {
-      width: 90%; max-width: 470px; display: block; margin: 8px auto 0 auto; 
-      padding: 10px; background: transparent; color: #d32f2f; 
-      border: 1px solid #d32f2f; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;
+      width: 92%; max-width: 470px; display: block; margin: 6px auto 0 auto; 
+      padding: 8px; background: transparent; color: #d32f2f; 
+      border: 1px solid #d32f2f; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer;
     }
     
-    .obs-container { width: 90%; max-width: 470px; margin: 0 auto 10px auto; }
-    .obs-container textarea { font-size: 13px; padding: 6px; resize: none; height: 40px; }
+    .obs-container { width: 92%; max-width: 470px; margin: 0 auto 6px auto; }
+    .obs-container textarea { font-size: 12px; padding: 4px 6px; resize: none; height: 32px; }
 
     .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
-    .modal-content { background: white; margin: 10% auto; padding: 20px; border-radius: 12px; width: 85%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
-    .revisao-texto { white-space: pre-wrap; background: #f4f4f4; padding: 12px; border-radius: 6px; font-size: 13px; margin: 15px 0; border: 1px solid #ddd; font-family: monospace; }
-    .modal-btns { display: flex; gap: 10px; }
-    .btn-confirmar { flex: 2; background: #25D366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; }
-    .btn-corrigir { flex: 1; background: #666; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; }
+    .modal-content { background: white; margin: 10% auto; padding: 15px; border-radius: 8px; width: 85%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
+    .revisao-texto { white-space: pre-wrap; background: #f4f4f4; padding: 10px; border-radius: 6px; font-size: 12px; margin: 12px 0; border: 1px solid #ddd; font-family: monospace; }
+    .modal-btns { display: flex; gap: 8px; }
+    .btn-confirmar { flex: 2; background: #25D366; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; }
+    .btn-corrigir { flex: 1; background: #666; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <div class="header-fixed">
   <div class="container">
-    <div class="logo-container">
-      <img src="https://i.postimg.cc/Mp43sV46/LOGO-COLMEIA.png" alt="Logo Colméia">
-    </div>
-
     <h1>Pedido Digital Colméia</h1>
 
     <div class="header-info">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span style="font-size: 12px;"><b>📅 Data do Pedido:</b> <input type="date" id="dataPedido" class="input-data-topo"></span>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 11px;"><b>📅 Data:</b> <input type="date" id="dataPedido" class="input-data-topo"></span>
       </div>
-      <input type="text" id="inputCliente" placeholder="👤 Nome do Cliente / Empresa">
+      <input type="text" id="inputCliente" placeholder="👤 Nome do Cliente / Empresa" style="height: 32px;">
       
       <div class="search-container">
         <input type="text" id="inputBusca" class="search-input" placeholder="🔍 Buscar produto ou código..." onkeyup="filtrarProdutos()">
@@ -146,28 +141,28 @@
 
 <div class="scrollable-content">
   <div class="container">
-    <div id="listaProdutos"><p style="text-align:center; color: #666; margin-top: 20px;">Carregando catálogo de produtos...</p></div>
+    <div id="listaProdutos"><p style="text-align:center; color: #666; margin-top: 20px; font-size: 13px;">Carregando catálogo de produtos...</p></div>
   </div>
 </div>
 
 <div class="footer-fixed">
   <div class="totais-gerais">
     <div>
-      <span style="font-size: 10px; color: #888; text-transform: uppercase;">Custo</span>
+      <span style="font-size: 9px; color: #888; text-transform: uppercase;">Custo</span>
       <span class="valor-custo" id="lblTotalCusto">R$ 0,00</span>
     </div>
     <div style="text-align: center;">
-      <span style="font-size: 10px; color: #888; text-transform: uppercase;">Lucro</span>
+      <span style="font-size: 9px; color: #888; text-transform: uppercase;">Lucro</span>
       <span class="valor-lucro" id="lblTotalLucro">R$ 0,00</span>
     </div>
     <div style="text-align: right;">
-      <span style="font-size: 10px; color: #888; text-transform: uppercase;">Pedido</span>
+      <span style="font-size: 9px; color: #888; text-transform: uppercase;">Pedido</span>
       <span class="valor-destaque" id="lblTotalVenda">R$ 0,00</span>
     </div>
   </div>
 
   <div class="obs-container">
-    <textarea id="obsGeral" placeholder="📝 Observações do pedido (opcional)..."></textarea>
+    <textarea id="obsGeral" placeholder="📝 Observações do pedido..."></textarea>
   </div>
   <button class="btn-enviar" onclick="abrirRevisao()">📋 Revisar e Enviar Pedido</button>
   <button class="btn-limpar" onclick="confirmarLimpeza()">🗑️ Limpar Tudo</button>
@@ -175,12 +170,12 @@
 
 <div id="modalRevisao" class="modal">
   <div class="modal-content">
-    <h3 style="margin-top:0; color: #075E54;">Revisar Pedido</h3>
+    <h3 style="margin-top:0; color: #075E54; font-size: 15px;">Revisar Pedido</h3>
     <div id="corpoRevisao" class="revisao-texto"></div>
 
     <div class="modal-btns">
       <button class="btn-corrigir" onclick="fecharRevisao()">Alterar</button>
-      <button class="btn-confirmar" onclick="confirmarEEnviar()">Enviar p/ WhatsApp</button>
+      <button class="btn-confirmar" onclick="confirmarEEnviar()">Enviar</button>
     </div>
   </div>
 </div>
@@ -286,12 +281,11 @@
       lista.innerHTML = '';
       
       dadosProdutos.forEach((p, index) => {
-        // A linha abaixo foi modificada para manter código e nome na mesma linha
         lista.innerHTML += `
           <div class="item-row" id="row-${index}">
             <div class="item-header">
-              <div style="flex:1; font-size: 14px; line-height: 1.3;">
-                <b>${p.codigo}</b> <span style="color: #444; font-size: 13px;">- ${p.nome}</span>
+              <div style="flex:1; font-size: 13px; line-height: 1.2;">
+                <b>${p.codigo}</b> <span style="color: #444;">- ${p.nome}</span>
               </div>
             </div>
             <div class="inputs-group">
